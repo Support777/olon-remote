@@ -22,9 +22,9 @@ swap "$f" 'pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];' \
           'pub const RENDEZVOUS_SERVERS: &[&str] = &["remote.olonerp.eu"];'
 swap "$f" 'pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";' \
           'pub const RS_PUB_KEY: &str = "8SgswV6kZC6T8s0SGycP9Y8Z9QLEHhP+xCIiS4hPUHM=";'
-# The name (ASCII: Windows install scripts and service names).
+# The name: RustDesk installs only a name of [a-zA-Z0-9-]+ (ui_interface.rs), so no space and no Greek.
 swap "$f" 'pub static ref APP_NAME: RwLock<String> = RwLock::new("RustDesk".to_owned());' \
-          'pub static ref APP_NAME: RwLock<String> = RwLock::new("OLON Support".to_owned());'
+          'pub static ref APP_NAME: RwLock<String> = RwLock::new("OLON-Support".to_owned());'
 # The customer sees no server or network settings to change by mistake.
 swap "$f" 'pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = Default::default();' \
           'pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = RwLock::new(HashMap::from([("hide-server-settings".to_owned(), "Y".to_owned()), ("hide-network-settings".to_owned(), "Y".to_owned()), ("hide-proxy-settings".to_owned(), "Y".to_owned()), ("hide-websocket-settings".to_owned(), "Y".to_owned())]));'
