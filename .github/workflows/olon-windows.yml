@@ -244,6 +244,13 @@ jobs:
           name: ${{ matrix.job.arch == 'aarch64' && 'topmostwindow-artifacts-ARM64' || 'topmostwindow-artifacts-x64' }}
           path: "./rustdesk"
 
+      - name: OLON exe name
+        # RustDesk installs and starts <app name>.exe (src/platform/windows.rs), as its own custom clients ship it.
+        shell: bash
+        run: |
+          mv ./rustdesk/rustdesk.exe ./rustdesk/OLON-Support.exe
+          test -f ./rustdesk/OLON-Support.exe && ! test -e ./rustdesk/rustdesk.exe && echo OLON_EXE_OK
+
       - name: Build self-extracted executable
         shell: bash
         if: env.UPLOAD_ARTIFACT == 'true'
@@ -251,7 +258,7 @@ jobs:
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
           pip3 install -r requirements.txt
-          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
+          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/OLON-Support.exe
           popd
           mkdir -p ./SignOutput
           mv ./target/release/rustdesk-portable-packer.exe ./SignOutput/OLON-Support-${{ env.VERSION }}-${{ matrix.job.arch }}.exe
